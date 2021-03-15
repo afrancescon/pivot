@@ -16,11 +16,11 @@
  */
 package org.apache.pivot.wtk;
 
-import java.net.URL;
-
 import org.apache.pivot.beans.BXMLSerializer;
 import org.apache.pivot.collections.Map;
 import org.apache.pivot.util.Resources;
+
+import java.net.URL;
 
 /**
  * Script application loader.
@@ -78,6 +78,14 @@ public class ScriptApplication implements Application {
         }
 
         return false;
+    }
+
+    @Override
+    public void postShutdown() {
+
+        // Exit
+        System.exit(0);
+
     }
 
     @Override

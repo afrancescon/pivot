@@ -236,8 +236,24 @@ public final class DesktopApplicationContext extends ApplicationContext {
                     break;
                 }
                 case WindowEvent.WINDOW_CLOSED: {
-                    System.exit(0);
+
+                    // Invoke post shutdown
+                    application.postShutdown();
+
+                    // Reset class name and properties
+                    applicationClassName = null;
+                    properties = null;
+
+                    // Reset application
+                    application = null;
+
+                    // Reset display and frames
+                    primaryDisplayHost = null;
+                    windowedHostFrame = null;
+                    fullScreenHostFrame = null;
+
                     break;
+
                 }
                 default: {
                     break;

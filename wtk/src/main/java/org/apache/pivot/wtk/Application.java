@@ -42,6 +42,14 @@ public interface Application {
         }
 
         @Override
+        public void postShutdown() {
+
+            // Exit
+            System.exit(0);
+
+        }
+
+        @Override
         public void suspend() throws Exception {
             // empty block
         }
@@ -126,6 +134,11 @@ public interface Application {
      * <tt>true</tt> to cancel shutdown, <tt>false</tt> to continue.
      */
     public boolean shutdown(boolean optional) throws Exception;
+
+    /**
+     * Called after the application is shut down.
+     */
+    public void postShutdown();
 
     /**
      * Called to notify the application that it is being suspended.
