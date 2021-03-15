@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- ############# Parent section ############# -->
+	<parent>
+		<groupId>org.apache.pivot</groupId>
+		<artifactId>pivot</artifactId>
+		<version>2.0.6-SNAPSHOT</version>
+	</parent>
+
+	<!-- ############# Main def section ############# -->
+	<groupId>org.apache.pivot</groupId>
+	<artifactId>wtk</artifactId>
+	<packaging>jar</packaging>
+	<name>Pivot WTK</name>
+
+	<!-- ############# Build section ############# -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!-- ############# Dependencies section ############# -->
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.pivot</groupId>
+			<artifactId>core</artifactId>
+		</dependency>
+	</dependencies>
+
+</project> 
+
