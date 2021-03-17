@@ -16,9 +16,6 @@
  */
 package org.apache.pivot.wtk;
 
-import java.util.Iterator;
-import java.util.Locale;
-
 import org.apache.pivot.beans.DefaultProperty;
 import org.apache.pivot.collections.ArrayList;
 import org.apache.pivot.collections.Dictionary;
@@ -27,6 +24,9 @@ import org.apache.pivot.json.JSONSerializer;
 import org.apache.pivot.serialization.SerializationException;
 import org.apache.pivot.util.ImmutableIterator;
 import org.apache.pivot.util.ListenerList;
+
+import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * A container that arranges field components in a form layout. Each field has
@@ -420,11 +420,26 @@ public class Form extends Container {
         }
     }
 
+    private static class FormSubmissionListenerList extends WTKListenerList<FormSubmissionListener>
+            implements FormSubmissionListener {
+
+        @Override
+        public void submitted(Form form, boolean valid) {
+
+            for (FormSubmissionListener listener : this) {
+                listener.submitted(form, valid);
+            }
+
+        }
+
+    }
+
     private ArrayList<Section> sections = new ArrayList<Section>();
     private SectionSequence sectionSequence = new SectionSequence();
 
     private FormListenerList formListeners = new FormListenerList();
     private FormAttributeListenerList formAttributeListeners = new FormAttributeListenerList();
+    private FormSubmissionListenerList formSubmissionListeners = new FormSubmissionListenerList();
 
     /**
      * Creates a new form.
@@ -509,6 +524,25 @@ public class Form extends Container {
         }
     }
 
+    /**
+     * Submit this form
+     */
+    public void submit() {
+
+        // Invoke form submission listeners
+        formSubmissionListeners.submitted(this, isValidForm());
+
+    }
+
+    /**
+     *
+     * @return
+     * true if all fields in this form are valid, false otherwise
+     */
+    public boolean isValidForm() {
+        return isValidField(this);
+    }
+
     @Override
     public Sequence<Component> remove(int index, int count) {
         for (int i = index, n = index + count; i < n; i++) {
@@ -543,6 +577,16 @@ public class Form extends Container {
      */
     public ListenerList<FormAttributeListener> getFormAttributeListeners() {
         return formAttributeListeners;
+    }
+
+    /**
+     * Returns the form submission listener list.
+     *
+     * @return
+     * The form submission listener list.
+     */
+    public ListenerList<FormSubmissionListener> getFormSubmissionListeners() {
+        return formSubmissionListeners;
     }
 
     /**
@@ -641,4 +685,51 @@ public class Form extends Container {
     public static final void clearFlag(Component component) {
         setFlag(component, (Flag)null);
     }
+
+    public static final boolean isValidField(Component component) {
+
+        if (component instanceof TextInput) {
+
+            // Cast to text input
+            TextInput textInput = (TextInput) component;
+
+            if (textInput.isTextValid()) {
+
+                // Clear flag
+                clearFlag(textInput);
+
+                return true;
+
+            } else {
+
+                // Set flag
+                setFlag(textInput, new Flag());
+
+                return false;
+
+            }
+
+        } else if (component instanceof Container) {
+
+            // Cast to conainer
+            Container container = (Container) component;
+
+            boolean valid = true;
+
+            for (Component innerComponent : container) {
+
+                // Validate component
+                valid = isValidField(innerComponent) && valid;
+
+            }
+
+            return valid;
+
+        }
+
+        // No validation
+        return true;
+
+    }
+
 }
