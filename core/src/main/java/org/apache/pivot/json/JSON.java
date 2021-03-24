@@ -161,20 +161,18 @@ public class JSON {
             throw new IllegalArgumentException("Invalid path.");
         }
 
-        Map<String, T> adapter = (Map<String, T>) (parent instanceof java.util.Map ? new MapAdapter<String, T>((java.util.Map<String, T>) parent) :
-                (parent instanceof org.apache.pivot.collections.Map ? ((org.apache.pivot.collections.Map<String, T>) parent): new BeanAdapter(parent)));
-
         Object previousValue;
-        if (adapter.containsKey(key)) {
-            previousValue = adapter.put(key, value);
-        } else if (parent instanceof Sequence<?>) {
+
+        if (parent instanceof Sequence<?>) {
             Sequence<Object> sequence = (Sequence<Object>)parent;
             previousValue = sequence.update(Integer.parseInt(key), value);
         } else if (parent instanceof Dictionary<?, ?>) {
             Dictionary<String, Object> dictionary = (Dictionary<String, Object>)parent;
             previousValue = dictionary.put(key, value);
         } else {
-            throw new IllegalArgumentException("Property \"" + key + "\" not found.");
+            Map<String, T> adapter = (Map<String, T>) (parent instanceof java.util.Map ? new MapAdapter<String, T>((java.util.Map<String, T>) parent) :
+                    (parent instanceof org.apache.pivot.collections.Map ? ((org.apache.pivot.collections.Map<String, T>) parent): new BeanAdapter(parent)));
+            previousValue = adapter.put(key, value);
         }
 
         return (T)previousValue;
