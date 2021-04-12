@@ -16,23 +16,20 @@
  */
 package org.apache.pivot.wtk.skin;
 
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.font.LineMetrics;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
-
 import org.apache.pivot.collections.ArrayList;
 import org.apache.pivot.text.CharSequenceCharacterIterator;
 import org.apache.pivot.wtk.Bounds;
 import org.apache.pivot.wtk.Platform;
 import org.apache.pivot.wtk.Span;
 import org.apache.pivot.wtk.TextArea;
+
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
+import java.awt.font.LineMetrics;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 
 class TextAreaSkinParagraphView implements TextArea.ParagraphListener {
     private static class Row {
@@ -346,19 +343,35 @@ class TextAreaSkinParagraphView implements TextArea.ParagraphListener {
     }
 
     public int getRowAt(int index) {
-        int rowIndex = rows.getLength() - 1;
-        Row row = rows.get(rowIndex);
 
-        while (row.offset > index) {
-            row = rows.get(--rowIndex);
+        if (rows.isEmpty()) {
+            return 0;
+        } else {
+
+            int rowIndex = rows.getLength() - 1;
+            Row row = rows.get(rowIndex);
+
+            while (row.offset > index) {
+                row = rows.get(--rowIndex);
+            }
+
+            return rowIndex;
+
         }
 
-        return rowIndex;
     }
 
     public int getRowOffset(int index) {
-        Row row = rows.get(getRowAt(index));
-        return row.offset;
+
+        if (rows.isEmpty()) {
+            return 0;
+        } else {
+
+            Row row = rows.get(getRowAt(index));
+            return row.offset;
+
+        }
+
     }
 
     public int getRowLength(int index) {

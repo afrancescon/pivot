@@ -16,36 +16,21 @@
  */
 package org.apache.pivot.wtk.skin;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Transparency;
+import org.apache.pivot.collections.ArrayList;
+import org.apache.pivot.collections.Dictionary;
+import org.apache.pivot.collections.Sequence;
+import org.apache.pivot.wtk.Component;
+import org.apache.pivot.wtk.Cursor;
+import org.apache.pivot.wtk.Insets;
+import org.apache.pivot.wtk.TextArea;
+import org.apache.pivot.wtk.*;
+
+import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.font.LineMetrics;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
-
-import org.apache.pivot.collections.ArrayList;
-import org.apache.pivot.collections.Dictionary;
-import org.apache.pivot.collections.Sequence;
-import org.apache.pivot.wtk.ApplicationContext;
-import org.apache.pivot.wtk.Bounds;
-import org.apache.pivot.wtk.Component;
-import org.apache.pivot.wtk.Cursor;
-import org.apache.pivot.wtk.Dimensions;
-import org.apache.pivot.wtk.GraphicsUtilities;
-import org.apache.pivot.wtk.Insets;
-import org.apache.pivot.wtk.Keyboard;
-import org.apache.pivot.wtk.Mouse;
-import org.apache.pivot.wtk.Platform;
-import org.apache.pivot.wtk.TextArea;
-import org.apache.pivot.wtk.TextAreaContentListener;
-import org.apache.pivot.wtk.TextAreaListener;
-import org.apache.pivot.wtk.TextAreaSelectionListener;
-import org.apache.pivot.wtk.Theme;
 
 /**
  * Text area skin.
@@ -1546,6 +1531,8 @@ public class TextAreaSkin extends ComponentSkin implements TextArea.Skin, TextAr
         // Insert view
         paragraphViews.insert(paragraphView, index);
 
+        updateParagraphRowViewsRowOffset();
+
         invalidateComponent();
     }
 
@@ -1562,6 +1549,8 @@ public class TextAreaSkin extends ComponentSkin implements TextArea.Skin, TextAr
 
         // Remove views
         paragraphViews.remove(index, count);
+
+        updateParagraphRowViewsRowOffset();
 
         invalidateComponent();
     }
@@ -1672,4 +1661,15 @@ public class TextAreaSkin extends ComponentSkin implements TextArea.Skin, TextAr
             scheduledBlinkCaretCallback = null;
         }
     }
+
+    private void updateParagraphRowViewsRowOffset() {
+
+        int rowOffset = 0;
+        for (TextAreaSkinParagraphView paragraphView : paragraphViews) {
+            paragraphView.setRowOffset(rowOffset);
+            rowOffset += paragraphView.getRowCount();
+        }
+
+    }
+
 }
