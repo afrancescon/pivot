@@ -15,21 +15,15 @@
  */
 package org.apache.pivot.wtk.skin.terra;
 
-import java.awt.Toolkit;
-
 import org.apache.pivot.util.Vote;
 import org.apache.pivot.wtk.Component;
 import org.apache.pivot.wtk.Container;
-import org.apache.pivot.wtk.ContainerMouseListener;
 import org.apache.pivot.wtk.Dialog;
-import org.apache.pivot.wtk.DialogListener;
-import org.apache.pivot.wtk.DialogStateListener;
-import org.apache.pivot.wtk.Dimensions;
-import org.apache.pivot.wtk.Display;
-import org.apache.pivot.wtk.Keyboard;
-import org.apache.pivot.wtk.Keyboard.KeyCode;
-import org.apache.pivot.wtk.Mouse;
+import org.apache.pivot.wtk.*;
 import org.apache.pivot.wtk.Window;
+import org.apache.pivot.wtk.Keyboard.KeyCode;
+
+import java.awt.*;
 
 /**
  * Dialog skin.
@@ -101,8 +95,6 @@ public class TerraDialogSkin extends TerraFrameSkin
         Dialog dialog = (Dialog)component;
         dialog.getDialogStateListeners().add(this);
 
-        setShowMaximizeButton(false);
-        setShowMinimizeButton(false);
     }
 
     @Override
