@@ -4,7 +4,7 @@
     <!-- ############# Main def section ############# -->
     <groupId>org.apache.pivot</groupId>
     <artifactId>pivot</artifactId>
-    <version>2.0.6-SNAPSHOT</version>
+    <version>2.0.6</version>
     <packaging>pom</packaging>
     <name>Apache Pivot</name>
 
@@ -12,7 +12,7 @@
     <properties>
 
         <!-- Pivot version -->
-        <pivot.version>2.0.6-SNAPSHOT</pivot.version>
+        <pivot.version>2.0.6</pivot.version>
 
         <!-- Default encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,7 +22,7 @@
     <!-- ############# SCM section ############# -->
     <scm>
         <developerConnection>scm:git:https://github.com/afrancescon/pivot.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>pivot-2.0.6</tag>
     </scm>
 
     <!-- ############# Modules ############# -->
